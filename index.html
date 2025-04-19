@@ -23,6 +23,12 @@
             object-fit: contain;
             display: block;
         }
+        #modal-content {
+            pointer-events: none;
+        }
+        #modal-image, #modal-prev, #modal-next, #modal-caption {
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
@@ -55,8 +61,7 @@
     </section>
     <!-- Modal for full image view -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden opacity-0 z-50" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="relative w-full max-w-[95vw] p-4">
-            <button id="modal-close" class="absolute top-4 right-4 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Close modal">×</button>
+        <div id="modal-content" class="relative w-full max-w-[95vw] p-4">
             <button id="modal-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Previous image">◄</button>
             <button id="modal-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Next image">►</button>
             <img id="modal-image" src="" alt="" class="mx-auto rounded-lg">
@@ -70,7 +75,6 @@
                 title: 'Príma fotky',
                 galleryId: 'prima-gallery',
                 images: Array.from({length: 95}, (_, i) => i + 1)
-                    .filter(i => i !== 112)
                     .map(i => ({src: `./Images/${i}.jpeg`, alt: `Príma foto ${i}`}))
             },
             {
@@ -119,9 +123,9 @@
         const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modal-image');
         const modalCaption = document.getElementById('modal-caption');
-        const modalClose = document.getElementById('modal-close');
         const modalPrev = document.getElementById('modal-prev');
         const modalNext = document.getElementById('modal-next');
+        const modalContent = document.getElementById('modal-content');
 
         function openModal(index) {
             if (index < 0 || index >= allImages.length) {
@@ -134,14 +138,27 @@
             modal.classList.remove('hidden');
             modal.classList.remove('opacity-0');
             modal.setAttribute('aria-hidden', 'false');
-            modalClose.focus();
+            modal.focus();
         }
 
         function updateModal() {
             modalImage.src = allImages[currentImageIndex].src;
             modalImage.alt = allImages[currentImageIndex].alt;
-            modalCaption.textContent = allImages[currentImageIndex].alt;
-            console.log(`Modal image set to: ${modalImage.src}`);
+            const imageNumber = parseInt(allImages[currentImageIndex].src.match(/(\d+)\.jpeg$/)[1]);
+            let year;
+            if (imageNumber >= 1 && imageNumber <= 29) {
+                year = '2022';
+            } else if ((imageNumber >= 30 && imageNumber <= 95) || (imageNumber >= 101 && imageNumber <= 112)) {
+                year = '2023';
+            } else if ((imageNumber >= 113 && imageNumber <= 131) || (imageNumber >= 201 && imageNumber <= 229)) {
+                year = '2024';
+            } else if (imageNumber >= 230 && imageNumber <= 280) {
+                year = '2025';
+            } else {
+                year = 'Unknown';
+            }
+            modalCaption.textContent = year;
+            console.log(`Modal image set to: ${modalImage.src}, image number: ${imageNumber}, caption: ${year}`);
         }
 
         function closeModal() {
@@ -152,7 +169,6 @@
             }, 300);
         }
 
-        modalClose.addEventListener('click', closeModal);
         modalPrev.addEventListener('click', () => {
             currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
             updateModal();
@@ -175,7 +191,10 @@
             }
         });
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+            console.log('Modal clicked, target:', e.target.id || e.target.tagName);
+            if (e.target === modal) {
+                closeModal();
+            }
         });
     </script>
 </body>
