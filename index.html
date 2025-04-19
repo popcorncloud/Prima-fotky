@@ -30,7 +30,7 @@
     </header>
     <hr class="border-gray-300 my-6">
     <section class="container mx-auto px-4">
-        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="prima-gallery">
             <!-- Príma fotky populated by JavaScript -->
         </div>
     </section>
@@ -39,7 +39,7 @@
     </header>
     <hr class="border-gray-300 my-6">
     <section class="container mx-auto px-4">
-        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="sekunda-gallery">
             <!-- Sekunda fotky populated by JavaScript -->
         </div>
     </section>
@@ -48,7 +48,7 @@
     </header>
     <hr class="border-gray-300 my-6">
     <section class="container mx-auto px-4">
-        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="tercia-gallery">
             <!-- Tercia fotky populated by JavaScript -->
         </div>
     </section>
@@ -67,17 +67,20 @@
         const imagesConfig = [
             {
                 title: 'Príma fotky',
+                galleryId: 'prima-gallery',
                 images: Array.from({length: 95}, (_, i) => i + 1)
                     .filter(i => i !== 112)
                     .map(i => ({src: `./Images/${i}.jpeg`, alt: `Príma foto ${i}`}))
             },
             {
                 title: 'Sekunda fotky',
+                galleryId: 'sekunda-gallery',
                 images: Array.from({length: 31}, (_, i) => i + 101)
                     .map(i => ({src: `./Images/${i}.jpeg`, alt: `Sekunda foto ${i}`}))
             },
             {
                 title: 'Tercia fotky',
+                galleryId: 'tercia-gallery',
                 images: Array.from({length: 80}, (_, i) => i + 201)
                     .map(i => ({src: `./Images/${i}.jpeg`, alt: `Tercia foto ${i}`}))
             }
@@ -88,8 +91,13 @@
         let currentImageIndex = 0;
 
         // Populate galleries
-        imagesConfig.forEach((section, sectionIndex) => {
-            const gallery = document.querySelector(`.gallery:nth-of-type(${sectionIndex + 1})`);
+        imagesConfig.forEach((section) => {
+            const gallery = document.getElementById(section.galleryId);
+            if (!gallery) {
+                console.error(`Gallery not found for ${section.title}, ID: ${section.galleryId}`);
+                return;
+            }
+            console.log(`Populating ${section.title} with ${section.images.length} images`);
             section.images.forEach((imgData, index) => {
                 const img = document.createElement('img');
                 img.src = imgData.src;
@@ -97,8 +105,9 @@
                 img.className = 'w-full h-auto object-cover aspect-[4/3] rounded-lg border-2 border-gray-300';
                 img.setAttribute('loading', 'lazy');
                 img.addEventListener('click', () => {
-                    console.log(`Clicked image: ${imgData.src}, index: ${allImages.findIndex(i => i.src === imgData.src)}`);
-                    openModal(allImages.findIndex(i => i.src === imgData.src));
+                    const globalIndex = allImages.findIndex(i => i.src === imgData.src);
+                    console.log(`Clicked image: ${imgData.src}, global index: ${globalIndex}`);
+                    openModal(globalIndex);
                 });
                 img.onerror = () => console.error(`Failed to load image: ${imgData.src}`);
                 gallery.appendChild(img);
