@@ -1,249 +1,171 @@
 <!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotky najlepšej strechy pod Piarákom triedy 🙃</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gallery img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        #modal-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+    <header class="text-center py-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Príma fotky 😄</h1>
+    </header>
+    <hr class="border-gray-300 my-6">
+    <section class="container mx-auto px-4">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Príma fotky populated by JavaScript -->
+        </div>
+    </section>
+    <header class="text-center py-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Sekunda fotky 😐</h1>
+    </header>
+    <hr class="border-gray-300 my-6">
+    <section class="container mx-auto px-4">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Sekunda fotky populated by JavaScript -->
+        </div>
+    </section>
+    <header class="text-center py-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Tercia fotky 😊</h1>
+    </header>
+    <hr class="border-gray-300 my-6">
+    <section class="container mx-auto px-4">
+        <div class="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Tercia fotky populated by JavaScript -->
+        </div>
+    </section>
+    <!-- Modal for full image view -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden opacity-0" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="relative w-full p-4">
+            <button id="modal-close" class="absolute top-4 right-4 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Close modal">×</button>
+            <button id="modal-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Previous image">◄</button>
+            <button id="modal-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Next image">►</button>
+            <img id="modal-image" src="" alt="" class="mx-auto rounded-lg">
+            <p id="modal-caption" class="text-white text-center mt-4"></p>
+        </div>
+    </div>
+    <script>
+        // Configuration for image galleries
+        const imagesConfig = [
+            {
+                title: 'Príma fotky',
+                images: Array.from({length: 95}, (_, i) => i + 1)
+                    .filter(i => i !== 112)
+                    .map(i => ({src: `./Images/${i}.jpeg`, alt: `Príma foto ${i}`}))
+            },
+            {
+                title: 'Sekunda fotky',
+                images: Array.from({length: 31}, (_, i) => i + 101)
+                    .map(i => ({src: `./Images/${i}.jpeg`, alt: `Sekunda foto ${i}`}))
+            },
+            {
+                title: 'Tercia fotky',
+                images: Array.from({length: 80}, (_, i) => i + 201)
+                    .map(i => ({src: `./Images/${i}.jpeg`, alt: `Tercia foto ${i}`}))
+            }
+        ];
 
-<html>
-    <head>
-        <title>Fotky najlepšej strechy pod Piarákom triedy🙃</title>
+        // Flatten all images for modal navigation
+        const allImages = imagesConfig.flatMap(section => section.images);
+        let currentImageIndex = 0;
 
-    </head>
-    <body>
-        <font size="6"><p><h1><big>Príma fotky😄</big></h1></p></font>
-        <hr>
-       <!-- <div class="row">
-              <img src="./Images/1.jpeg" alt="Snow" style="width:500">
-              <img src="./Images/2.jpeg" alt="Forest" style="width:500">
-              <img src="./Images/3.jpeg" alt="Mountains" style="width:500">
-        </div>-->
-        <img src="./Images/1.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/2.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/3.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/4.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/5.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/6.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/7.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/8.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/9.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/10.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/11.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/12.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/13.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/14.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/15.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/16.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/17.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/18.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/19.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/20.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/21.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/22.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/23.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/24.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/25.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/26.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/27.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/28.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/29.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/30.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/31.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/32.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/33.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/34.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/35.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/36.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/37.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/38.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/39.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/40.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/41.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/42.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/43.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/44.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/45.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/46.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/47.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/48.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/49.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/50.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/51.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/52.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/53.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/54.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/55.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/56.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/57.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/58.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/59.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/60.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/61.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/62.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/63.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/64.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/65.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/66.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/67.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/68.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/69.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/70.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/71.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/72.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/73.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/74.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/75.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/76.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/77.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/78.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/79.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/80.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/81.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/82.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/83.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/84.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/85.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/86.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/87.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/88.jpeg"width=1300>
-        <font size="6"><p><h1><big>Sekunda fotky😐</big></h1></p></font>
-        <hr>
-        <img src="./Images/101.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/102.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/103.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/104.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/105.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/106.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/107.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/108.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/109.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/110.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/111.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/113.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/114.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/115.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/116.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/117.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/118.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/119.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/120.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/121.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/122.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/123.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/124.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/125.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/126.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/127.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/128.jpeg"width=1300>
-        <p><h3>     </h3></p>
-        <img src="./Images/129.jpeg"width=1300>
-    </body>
+        // Populate galleries
+        imagesConfig.forEach((section, sectionIndex) => {
+            const gallery = document.querySelector(`.gallery:nth-of-type(${sectionIndex + 1})`);
+            section.images.forEach((imgData, index) => {
+                const img = document.createElement('img');
+                img.src = imgData.src;
+                img.alt = imgData.alt;
+                img.className = 'w-full h-auto object-cover aspect-[4/3] rounded-lg border-2 border-gray-300';
+                img.setAttribute('loading', 'lazy');
+                img.addEventListener('click', () => {
+                    console.log(`Clicked image: ${imgData.src}, index: ${allImages.findIndex(i => i.src === imgData.src)}`);
+                    openModal(allImages.findIndex(i => i.src === imgData.src));
+                });
+                img.onerror = () => console.error(`Failed to load image: ${imgData.src}`);
+                gallery.appendChild(img);
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalCaption = document.getElementById('modal-caption');
+        const modalClose = document.getElementById('modal-close');
+        const modalPrev = document.getElementById('modal-prev');
+        const modalNext = document.getElementById('modal-next');
+
+        function openModal(index) {
+            if (index < 0 || index >= allImages.length) {
+                console.error(`Invalid image index: ${index}`);
+                return;
+            }
+            currentImageIndex = index;
+            updateModal();
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            modal.setAttribute('aria-hidden', 'false');
+            modalClose.focus();
+            console.log(`Modal opened: ${allImages[index].src}`);
+        }
+
+        function updateModal() {
+            modalImage.src = allImages[currentImageIndex].src;
+            modalImage.alt = allImages[currentImageIndex].alt;
+            modalCaption.textContent = allImages[currentImageIndex].alt;
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+            }, 300);
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalPrev.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+            updateModal();
+        });
+        modalNext.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % allImages.length;
+            updateModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowLeft') {
+                    currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+                    updateModal();
+                }
+                if (e.key === 'ArrowRight') {
+                    currentImageIndex = (currentImageIndex + 1) % allImages.length;
+                    updateModal();
+                }
+            }
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    </script>
+</body>
 </html>
